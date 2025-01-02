@@ -32,16 +32,18 @@ const ItemsCard = ({
           </h2>
         )}
       </div>
-      <p className="bg-yellow-300 px-2 rounded-md font-semibold font-robotoSlab tracking-widest">
-        {toggle ? "complete" : "inprogress"}
-      </p>
-      <div className="flex items-center gap-1">
-        <button type="button" onClick={edit}>
-          <FaRegEdit className="size-5 text-blackGreen hover:text-green-300 transition-colors duration-300" />
-        </button>
-        <button type="button" onClick={Delete}>
-          <MdDeleteOutline className="size-5 hover:text-red-600 transition-colors duration-300" />
-        </button>
+      <div className="flex sm:flex-row flex-col items-center gap-1 sm:gap-6">
+        <p className="bg-yellow-300 px-2 rounded-md font-semibold font-robotoSlab tracking-widest">
+          {toggle ? "complete" : "inprogress"}
+        </p>
+        <div className="flex items-center gap-1">
+          <button type="button" onClick={edit}>
+            <FaRegEdit className="size-5 text-blackGreen hover:text-green-300 transition-colors duration-300" />
+          </button>
+          <button type="button" onClick={Delete}>
+            <MdDeleteOutline className="size-5 hover:text-red-600 transition-colors duration-300" />
+          </button>
+        </div>
       </div>
     </li>
   );
