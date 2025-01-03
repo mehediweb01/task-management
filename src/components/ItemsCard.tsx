@@ -21,6 +21,7 @@ const ItemsCard = ({
       <div className="flex items-center gap-3 my-1">
         <input
           type="checkbox"
+          checked={toggle}
           className="size-7 accent-sky-600 focus:accent-sky-700"
           onChange={toggleComplete}
         />

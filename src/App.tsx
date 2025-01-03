@@ -1,19 +1,45 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ItemsCard from "./components/ItemsCard";
-
+import { getFromLocalStorage, saveToLocalStorage } from "./localStorageUtils";
 interface IFace {
   Id: number;
   text: string;
   completed: boolean;
   total: number;
 }
+// local storage save data
+const getData = () => {
+  const storedValue = getFromLocalStorage<[]>("list");
+  if (storedValue) {
+    return JSON.parse(JSON.stringify(storedValue));
+  } else {
+    return [];
+  }
+};
+const getTotal = () => {
+  const storedValue = getFromLocalStorage<number>("total");
+  return storedValue ?? 0;
+};
+
 function App() {
-  const [arr, setArr] = useState<IFace[]>([]);
+  const [arr, setArr] = useState<IFace[]>(getData());
   const [Text, setText] = useState<string>("");
   const [EditText, setEditText] = useState<string>("");
   const [EditId, setEditId] = useState<number | null>(null);
-  const [totals, setTotal] = useState<number>(0);
+  const [totals, setTotal] = useState<number>(getTotal());
+  const totalItem = () => {
+    setTotal(totals + 1);
+  };
+  // Update local storage whenever the value changes
+  useEffect(() => {
+    saveToLocalStorage("list", arr);
+  }, [arr]);
+
+  useEffect(() => {
+    localStorage.setItem("total", JSON.stringify(totals));
+  }, [totals]);
+
   const AddTasks = (e: React.FormEvent) => {
     e.preventDefault();
     const TrimText = Text.trim();
@@ -29,7 +55,7 @@ function App() {
           total: totals,
         },
       ]);
-      setTotal(totals + 1);
+      totalItem();
       setText("");
     }
   };
@@ -44,7 +70,7 @@ function App() {
     const trimValue: string = EditText.trim();
     if (!trimValue) return;
     setArr(
-      arr.map((todo) => (todo.Id === id ? { ...todo, text: trimValue } : todo))
+      arr.map((item) => (item.Id === id ? { ...item, text: trimValue } : item))
     );
     setEditId(null);
     setEditText("");
@@ -73,7 +99,6 @@ function App() {
       })
     );
   };
-
   return (
     <>
       <div className="bg-gunmetal flex justify-center items-start pt-6 min-h-screen">
@@ -117,7 +142,7 @@ function App() {
                 No Tasks Found
               </h2>
             ) : (
-              arr.map((item) => (
+              arr.map((item: any) => (
                 <ItemsCard
                   key={item.Id}
                   Delete={() => Delete(item.Id)}
