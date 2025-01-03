@@ -5,6 +5,7 @@ import ItemsCard from "./components/ItemsCard";
 interface IFace {
   Id: number;
   text: string;
+  completed: boolean;
 }
 
 function App() {
@@ -12,7 +13,6 @@ function App() {
   const [Text, setText] = useState<string>("");
   const [EditText, setEditText] = useState<string>("");
   const [EditId, setEditId] = useState<number | null>(null);
-  const [toggle, setToggle] = useState<boolean>(false);
 
   const AddTasks = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ function App() {
     if (TrimText === "") {
       return;
     } else {
-      setArr([...arr, { Id: Date.now(), text: TrimText }]);
+      setArr([...arr, { Id: Date.now(), text: TrimText, completed: false }]);
       setText("");
     }
   };
@@ -49,9 +49,18 @@ function App() {
   const Delete = (id: number) => {
     setArr(arr.filter((item) => item.Id !== id));
   };
-  const toggleComplete = () => {
-    setToggle(!toggle);
+
+  const toggleComplete = (id: number) => {
+    setArr((arr) =>
+      arr.map((Item) => {
+        if (Item.Id === id) {
+          return { ...Item, completed: !Item.completed };
+        }
+        return Item;
+      })
+    );
   };
+
   return (
     <>
       <div className="h-screen bg-gunmetal flex justify-center items-start pt-6">
@@ -96,8 +105,8 @@ function App() {
                 handleCancel={handleCancel}
                 handleUpdate={(e: any) => handleUpdate(item.Id, e)}
                 EditOnChange={(e: any) => setEditText(e.target.value)}
-                toggleComplete={toggleComplete}
-                toggle={toggle}
+                toggleComplete={() => toggleComplete(item.Id)}
+                toggle={item.completed}
               />
             ))}
           </div>

@@ -22,7 +22,7 @@ const ItemsCard = ({
         <input
           type="checkbox"
           className="size-7 accent-sky-600 focus:accent-sky-700"
-          onClick={toggleComplete}
+          onChange={toggleComplete}
         />
         {editId === listId ? (
           <form className="flex flex-col gap-2 items-start">
