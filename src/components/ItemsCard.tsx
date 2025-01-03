@@ -35,7 +35,8 @@ const ItemsCard = ({
             />
             <div className="flex justify-center items-center gap-3">
               <button
-                className="bg-blackGreen text-primary px-2 py-1 rounded-lg font-redHadDisplay tracking-wide text-xl"
+                disabled={editText === ""}
+                className="bg-blackGreen text-primary px-2 py-1 rounded-lg font-redHadDisplay tracking-wide text-xl disabled:cursor-not-allowed disabled:opacity-50"
                 onClick={handleUpdate}
               >
                 Save
@@ -52,19 +53,23 @@ const ItemsCard = ({
             </span>
           </form>
         ) : (
-          <h2 className="font-redHadDisplay text-base font-semibold text-blackGreen w-full flex flex-col">
-            <span className={toggle ? "line-through" : undefined}>{title}</span>
+          <h2 className="font-redHadDisplay text-xl font-semibold text-blackGreen w-full flex flex-col">
+            <span
+              className={toggle ? "line-through text-secondary" : undefined}
+            >
+              {title}
+            </span>
             <span className="font-robotoSlab font-light text-sm">
               {finalDate}
             </span>
           </h2>
         )}
       </div>
-      <div className="flex sm:flex-row flex-col items-center gap-1 sm:gap-6">
+      <div className="flex sm:flex-row flex-col items-center gap-2 sm:gap-6">
         <p className="bg-yellow-300 px-2 rounded-md font-semibold font-robotoSlab tracking-widest">
           {toggle ? "completed" : "inprogress"}
         </p>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center sm:gap-5 gap-2">
           <button type="button" onClick={handleEdit}>
             <FaRegEdit className="size-5 text-blackGreen hover:text-green-300 transition-colors duration-300" />
           </button>
